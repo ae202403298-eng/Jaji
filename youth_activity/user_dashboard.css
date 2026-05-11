@@ -1,0 +1,254 @@
+/* ================================================================
+   USER DASHBOARD — Unified Design System
+   Mirrors admin_dashboard.css tokens, patterns, and structure.
+   ================================================================ */
+
+/* ── Reset & Base ─────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #eaf3fb;
+    display: flex;
+    min-height: 100vh;
+    color: #334455;
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────── */
+.sidebar {
+    width: 220px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #1a3a5c 0%, #1e5080 60%, #2980b9 100%);
+    color: #fff;
+    position: fixed;
+    top: 0; left: 0;
+    padding: 28px 16px 24px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+.sidebar h2 {
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 20px;
+    color: #fff;
+}
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.65);
+    padding: 10px 13px;
+    text-decoration: none;
+    margin-bottom: 3px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: all 0.18s ease;
+}
+.sidebar a:hover {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-left-color: rgba(135,206,250,0.5);
+}
+.sidebar a.active {
+    background: rgba(135,206,250,0.18);
+    border-left: 3px solid #87ceef;
+    color: #fff;
+    font-weight: 600;
+}
+.sidebar a.logout {
+    margin-top: auto;
+    padding-top: 14px;
+    color: rgba(255,160,160,0.75);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-radius: 0;
+    border-left: 3px solid transparent;
+}
+.sidebar a.logout:hover {
+    background: rgba(255,100,100,0.12);
+    color: #ffaaaa;
+}
+
+/* ── Main Area ────────────────────────────────────────────────── */
+.main {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #eaf3fb;
+}
+.container {
+    padding: 20px 32px 40px;
+    flex: 1;
+    max-width: 100%;
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.header {
+    background: #fff;
+    padding: 15px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #dde8f0;
+    border-radius: 14px;
+    margin: 20px 32px 0 32px;
+    box-shadow: 0 1px 4px rgba(41,128,185,0.06);
+}
+.header h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a3a5c;
+    letter-spacing: -0.2px;
+}
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.header-right span {
+    font-size: 12.5px;
+    color: #7aafc8;
+    font-weight: 500;
+}
+.avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2980b9, #87ceef);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+/* ── Section Card ─────────────────────────────────────────────── */
+.section {
+    background: #fff;
+    padding: 22px 26px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #dde8f0;
+    box-shadow: 0 1px 3px rgba(41,128,185,0.04);
+}
+.section h2 {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f6fb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.section > p {
+    font-size: 13.5px;
+    color: #7aafc8;
+}
+
+/* ── Event Cards Grid ─────────────────────────────────────────── */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+/* ── Card ─────────────────────────────────────────────────────── */
+.card {
+    background: #f5f9fd;
+    border: 1px solid #dde8f0;
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(41,128,185,0.04);
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(41,128,185,0.10);
+}
+.card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin-bottom: 10px;
+}
+.card p {
+    font-size: 13px;
+    color: #556677;
+    margin-bottom: 5px;
+}
+.card p:last-of-type {
+    margin-bottom: 14px;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+button, .btn {
+    padding: 8px 16px;
+    border: none;
+    background: #2980b9;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.1s;
+    font-family: inherit;
+    text-decoration: none;
+    display: inline-block;
+    line-height: 1.4;
+    width: 100%;
+    text-align: center;
+}
+button:hover, .btn:hover { background: #1e6fa0; }
+button:active, .btn:active { transform: scale(0.97); }
+
+button.disabled,
+button[disabled] {
+    background: #daeef8;
+    color: #7aafc8;
+    cursor: default;
+    pointer-events: none;
+}
+button.disabled:hover { background: #daeef8; }
+
+/* ── Form Inside Card ─────────────────────────────────────────── */
+.card form {
+    margin: 0;
+}
+
+/* ── Empty State ──────────────────────────────────────────────── */
+.empty-state {
+    text-align: center;
+    padding: 32px 20px;
+    color: #9aafbe;
+    font-size: 13.5px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+    .cards-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+    .sidebar { width: 0; overflow: hidden; }
+    .main { margin-left: 0; width: 100%; }
+    .container { padding: 16px 16px 30px; }
+    .header {
+        margin: 12px 16px 0;
+        padding: 12px 16px;
+        border-radius: 10px;
+    }
+    .cards-grid { grid-template-columns: 1fr; }
+}

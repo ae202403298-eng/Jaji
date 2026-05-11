@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #eaf3fb;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.verification-container {
+    background: #fff;
+    border: 1px solid #c8e3f3;
+    border-radius: 14px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.verification-container .verify-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #2980b9, #87ceef);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.verification-container h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin-bottom: 8px;
+}
+
+.verification-container .subtitle {
+    font-size: 13px;
+    color: #7aafc8;
+    margin-bottom: 28px;
+    line-height: 1.5;
+}
+
+.error-message {
+    background: #fff0f0;
+    border: 1px solid #f5c6c6;
+    color: #c0392b;
+    font-size: 13px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.verification-container .form-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.verification-container .form-group label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #1a3a5c;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.verification-container .form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #c8e3f3;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a3a5c;
+    background: #f5f9fd;
+    outline: none;
+    text-align: center;
+    letter-spacing: 8px;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.verification-container .form-group input:focus {
+    border-color: #2980b9;
+    background: #fff;
+}
+
+.verification-container input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #c8e3f3;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a3a5c;
+    background: #f5f9fd;
+    outline: none;
+    text-align: center;
+    letter-spacing: 8px;
+    transition: border-color 0.2s, background 0.2s;
+    margin-bottom: 18px;
+}
+
+.verification-container input[type="text"]:focus {
+    border-color: #2980b9;
+    background: #fff;
+}
+
+.verification-container button {
+    width: 100%;
+    padding: 11px;
+    background: linear-gradient(135deg, #2980b9, #1e5080);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+}
+
+.verification-container button:hover {
+    opacity: 0.9;
+}
+
+.verification-container button:active {
+    transform: scale(0.98);
+}
+
+.verification-container .verify-links {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #7aafc8;
+}
+
+.verification-container .verify-links a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.verification-container .verify-links a:hover {
+    text-decoration: underline;
+}

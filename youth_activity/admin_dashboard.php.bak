@@ -1,0 +1,222 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+require_once "database.php";
+
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: adminlogin.php");
+    exit();
+}
+
+/* =========================
+   TOTAL EVENTS
+   ========================= */
+$events = $conn->query("SELECT COUNT(*) AS total FROM events")->fetch_assoc();
+
+/* =========================
+   TOTAL PARTICIPANTS
+   ========================= */
+$participants = $conn->query("SELECT COUNT(*) AS total FROM users WHERE role='member'")->fetch_assoc();
+
+/* =========================
+   TOTAL PAYMENTS
+   ========================= */
+$payments = $conn->query("SELECT COALESCE(SUM(amount_paid),0) AS total FROM payments")->fetch_assoc();
+
+/* =========================
+   TOTAL ATTENDANCE
+   ========================= */
+$attendance = $conn->query("SELECT COUNT(*) AS total FROM attendance")->fetch_assoc();
+
+/* =========================
+   UPCOMING EVENTS
+   ========================= */
+$event_list = $conn->query("
+    SELECT 
+        id,
+        event_name,
+        event_date,
+        location,
+        CASE
+            WHEN event_date > NOW() THEN 'Upcoming'
+            WHEN DATE(event_date) = CURDATE() THEN 'Ongoing'
+            ELSE 'Completed'
+        END AS status
+    FROM events
+    ORDER BY event_date ASC
+    LIMIT 5
+");
+
+/* =========================
+   PAYMENT OVERVIEW
+   ========================= */
+$payment_overview = $conn->query("
+    SELECT 
+        SUM(e.fee) AS expected,
+        COALESCE(SUM(p.amount_paid),0) AS collected,
+        (SUM(e.fee) - COALESCE(SUM(p.amount_paid),0)) AS remaining
+    FROM events e
+    LEFT JOIN payments p ON p.event_id = e.id
+")->fetch_assoc();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="admin_dashboard.css">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>ADMIN</h2>
+    <a href="admin_dashboard.php" class="active">Dashboard</a>
+    <a href="events.php">Events</a>
+    <a href="attendance.php">Attendance</a>
+    <a href="payments.php">Payments</a>
+    <a href="reports.php">Reports</a>
+    <a href="notifications.php">Notifications</a>
+    <a href="logout.php" class="logout">Logout</a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="header">
+    <h1>Dashboard Overview</h1>
+    <div class="header-right">
+        <span>Welcome back, Admin</span>
+        <div class="avatar">A</div>
+    </div>
+</div>
+
+<div class="container">
+
+<!-- SEARCH -->
+<div class="search-bar">
+    <input type="text" placeholder="Search events, users, payments...">
+    <button>Filter</button>
+</div>
+
+<!-- NOTIFICATIONS (STATIC for now) -->
+<div class="section notifications">
+    <h2>Notifications</h2>
+    <div class="notif-item">
+        Youth Camp starts tomorrow — prepare attendance list.
+    </div>
+    <div class="notif-item">
+        Check unpaid members — follow up required.
+    </div>
+</div>
+
+<!-- CARDS (NOW DYNAMIC) -->
+<div class="cards">
+
+    <div class="card">
+        <h3>Total Events</h3>
+        <p><?= $events['total'] ?></p>
+    </div>
+
+    <div class="card">
+        <h3>Total Participants</h3>
+        <p><?= $participants['total'] ?></p>
+    </div>
+
+    <div class="card">
+        <h3>Total Payments</h3>
+        <p>₱<?= number_format($payments['total'], 2) ?></p>
+    </div>
+
+    <div class="card">
+        <h3>Total Attendance</h3>
+        <p><?= $attendance['total'] ?></p>
+    </div>
+
+</div>
+
+<!-- EVENTS (LIVE DATA) -->
+<div class="section">
+<h2>Upcoming Events</h2>
+
+<table>
+<tr>
+<th>Event</th>
+<th>Date</th>
+<th>Location</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+<?php while($e = $event_list->fetch_assoc()): ?>
+<tr>
+<td><?= htmlspecialchars($e['event_name']) ?></td>
+<td><?= $e['event_date'] ?></td>
+<td><?= htmlspecialchars($e['location']) ?></td>
+<td>
+    <span class="status-pill"><?= $e['status'] ?></span>
+</td>
+<td>
+    <button onclick="location.href='edit_event.php?id=<?= $e['id'] ?>'">
+        Edit
+    </button>
+</td>
+</tr>
+<?php endwhile; ?>
+
+</table>
+</div>
+
+<!-- BOTTOM STATS -->
+<div class="grid-2">
+
+<div class="section">
+<h2>Attendance Summary</h2>
+
+<?php
+$att = $conn->query("
+    SELECT 
+        e.event_name,
+        COUNT(a.id) AS present
+    FROM events e
+    LEFT JOIN attendance a ON a.event_id = e.id
+    GROUP BY e.id
+    LIMIT 1
+")->fetch_assoc();
+?>
+
+<p>
+<?= $att['event_name'] ?? 'No Event' ?>:
+<strong><?= $att['present'] ?? 0 ?></strong>
+</p>
+
+</div>
+
+<div class="section">
+<h2>Payment Overview</h2>
+
+<p>Total Expected:
+<strong>₱<?= number_format($payment_overview['expected'], 2) ?></strong></p>
+
+<p>Total Collected:
+<strong style="color:#2980b9;">
+₱<?= number_format($payment_overview['collected'], 2) ?>
+</strong></p>
+
+<p>Remaining:
+<strong style="color:#e05a2b;">
+₱<?= number_format($payment_overview['remaining'], 2) ?>
+</strong></p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
